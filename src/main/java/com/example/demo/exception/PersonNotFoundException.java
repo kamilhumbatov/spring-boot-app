@@ -7,6 +7,6 @@ public class PersonNotFoundException extends RuntimeException {
     }
 
     private static String getFormat(long id) {
-        return String.format("Person by %d not found", id);
+        return String.format("Person by id %d not found", id);
     }
 }

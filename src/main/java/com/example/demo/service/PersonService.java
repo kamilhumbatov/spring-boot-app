@@ -8,7 +8,7 @@ import java.util.List;
 public interface PersonService {
     PersonDto findById(long id);
 
-    Person save(Person person);
+    PersonDto save(PersonDto person);
 
-    List<Person> findAll();
+    List<PersonDto> findAll();
 }

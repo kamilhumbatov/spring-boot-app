@@ -3,7 +3,6 @@ package com.example.demo.mapper;
 import com.example.demo.domain.Person;
 import com.example.demo.dto.PersonDto;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

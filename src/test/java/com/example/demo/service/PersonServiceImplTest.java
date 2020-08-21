@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.Person;
+import com.example.demo.dto.PersonDto;
 import com.example.demo.exception.PersonNotFoundException;
 import com.example.demo.repository.PersonReposiotory;
 import com.example.demo.service.impl.PersonServiceImpl;
@@ -27,9 +28,10 @@ import static org.mockito.Mockito.*;
 public class PersonServiceImplTest {
 
     private Person person;
-    private static final long ID=1L;
-    private static final String NAME="Kamil";
-    private static final String SURNAME="Humbatov";
+    private PersonDto personDto;
+    private static final long ID = 1L;
+    private static final String NAME = "Kamil";
+    private static final String SURNAME = "Humbatov";
 
     @MockBean
     private PersonReposiotory personReposiotory;
@@ -40,6 +42,7 @@ public class PersonServiceImplTest {
     @Before
     public void setUp() {
         person = Person.builder().id(ID).name(NAME).surname(SURNAME).build();
+        personDto = PersonDto.builder().id(ID).name(NAME).surname(SURNAME).build();
     }
 
     @Test
@@ -47,22 +50,27 @@ public class PersonServiceImplTest {
         when(personReposiotory.findById(anyLong())).thenReturn(Optional.of(person));
 
         assertThat(personService.findById(anyLong()).getName()).isEqualTo(NAME);
-        verify(personReposiotory,times(1)).findById(anyLong());
+        verify(personReposiotory, times(1)).findById(anyLong());
     }
 
     @Test
-    public void findByIdPersonNotFoundExeption(){
+    public void findByIdPersonNotFoundExeption() {
         when(personReposiotory.findById(ID)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(()->personService.findById(ID))
+        assertThatThrownBy(() -> personService.findById(ID))
                 .isInstanceOf(PersonNotFoundException.class)
-                .hasMessage(String.format("Person by %d not found", ID));
-        verify(personReposiotory,times(1)).findById(ID);
+                .hasMessage(String.format("Person by id %d not found", ID));
+        verify(personReposiotory, times(1)).findById(ID);
     }
 
     @Test
-    public void savePerson(){
-        Person personNew= Person.builder()
+    public void savePerson() {
+        Person personNew = Person.builder()
+                .id(ID)
+                .name(NAME)
+                .surname(SURNAME)
+                .build();
+        PersonDto personDtoNew = PersonDto.builder()
                 .id(ID)
                 .name(NAME)
                 .surname(SURNAME)
@@ -70,15 +78,15 @@ public class PersonServiceImplTest {
 
         when(personReposiotory.save(personNew)).thenReturn(person);
 
-        assertThat(personService.save(personNew).getName()).isEqualTo(person.getName());
-        verify(personReposiotory,times(1)).save(personNew);
+        assertThat(personService.save(personDtoNew).getName()).isEqualTo(person.getName());
+        verify(personReposiotory, times(1)).save(personNew);
     }
 
     @Test
-    public void findAll(){
+    public void findAll() {
         when(personReposiotory.findAll()).thenReturn(Collections.singletonList(person));
 
         assertThat(personService.findAll().size()).isEqualTo(1);
-        verify(personReposiotory,times(1)).findAll();
+        verify(personReposiotory, times(1)).findAll();
     }
 }

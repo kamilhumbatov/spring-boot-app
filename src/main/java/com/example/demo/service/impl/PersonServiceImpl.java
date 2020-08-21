@@ -1,9 +1,7 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.domain.Person;
 import com.example.demo.dto.PersonDto;
 import com.example.demo.exception.PersonNotFoundException;
-import com.example.demo.mapper.PersonMapper;
 import com.example.demo.mapper.PersonMapperManual;
 import com.example.demo.repository.PersonReposiotory;
 import com.example.demo.service.PersonService;
@@ -16,8 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PersonServiceImpl implements PersonService {
 
-    //private final PersonMapper personMapper;
-    private final PersonMapperManual personMapper;
+    private final PersonMapperManual personMapper = new PersonMapperManual();
     private final PersonReposiotory personReposiotory;
 
     @Override
@@ -27,12 +24,13 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Person save(Person person) {
-        return personReposiotory.save(person);
+    public PersonDto save(PersonDto personDto) {
+        return personMapper.convertToDto(
+                personReposiotory.save(personMapper.converToEntity(personDto)));
     }
 
     @Override
-    public List<Person> findAll() {
-        return personReposiotory.findAll();
+    public List<PersonDto> findAll() {
+        return personMapper.convertToDtoList(personReposiotory.findAll());
     }
 }
