@@ -46,7 +46,7 @@ public class PersonServiceImplTest {
     }
 
     @Test
-    public void findById() {
+    public void givenIdThenEqual() {
         when(personReposiotory.findById(anyLong())).thenReturn(Optional.of(person));
 
         assertThat(personService.findById(anyLong()).getName()).isEqualTo(NAME);
@@ -54,7 +54,7 @@ public class PersonServiceImplTest {
     }
 
     @Test
-    public void findByIdPersonNotFoundExeption() {
+    public void givenIdThenPersonNotFoundExeption() {
         when(personReposiotory.findById(ID)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> personService.findById(ID))
@@ -64,7 +64,7 @@ public class PersonServiceImplTest {
     }
 
     @Test
-    public void savePerson() {
+    public void givenPersonSaveOk() {
         Person personNew = Person.builder()
                 .id(ID)
                 .name(NAME)
@@ -83,7 +83,7 @@ public class PersonServiceImplTest {
     }
 
     @Test
-    public void findAll() {
+    public void getAllPersonsOk() {
         when(personReposiotory.findAll()).thenReturn(Collections.singletonList(person));
 
         assertThat(personService.findAll().size()).isEqualTo(1);

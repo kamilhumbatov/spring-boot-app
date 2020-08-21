@@ -65,20 +65,6 @@ public class SwaggerConfiguration {
                 "", "", Collections.emptyList());
     }
 
-    private SecurityContext actuatorSecurityContext() {
-        return SecurityContext.builder()
-                .securityReferences(Arrays.asList(basicAuthReference()))
-                .build();
-    }
-
-    private SecurityScheme basicAuthScheme() {
-        return new BasicAuth("basicAuth");
-    }
-
-    private SecurityReference basicAuthReference() {
-        return new SecurityReference("basicAuth", new AuthorizationScope[0]);
-    }
-
     private List<ResponseMessage> getResponseMessage() {
         return Arrays.asList(
                 new ResponseMessageBuilder().code(404).message(CODE_404).build(),
