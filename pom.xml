@@ -13,6 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>demo</name>
     <description>Demo project for Spring Boot</description>
+    <packaging>war</packaging>
 
     <properties>
         <java.version>11</java.version>
@@ -99,6 +100,7 @@
     </dependencies>
 
     <build>
+        <finalName>bank</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

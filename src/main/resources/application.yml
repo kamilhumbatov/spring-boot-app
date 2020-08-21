@@ -3,9 +3,9 @@ spring:
    main:
       banner-mode: off
    datasource:
-      url: jdbc:mysql://localhost:3306/person?useSSL=false
-      username: root
-      password:
+      url: jdbc:mysql://localhost:3306/person?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
+      username: person
+      password: 123
    jpa:
       database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
       generate-ddl: true
