@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.PersonDto;
+import com.example.demo.dto.ResponseModel;
 import com.example.demo.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -22,19 +23,19 @@ public class PersonRestController {
     private final PersonService personService;
 
     @GetMapping(API_ID)
-    public PersonDto findPersonById(
+    public ResponseModel findPersonById(
             @PathVariable @Positive(message = ID_MUST_BE_POSITIVE) long id) {
-        return personService.findById(id);
+        return new ResponseModel(personService.findById(id));
     }
 
     @PostMapping(API_SAVE)
-    public PersonDto savePerson(@RequestBody PersonDto personDto) {
-        return personService.save(personDto);
+    public ResponseModel savePerson(@RequestBody PersonDto personDto) {
+        return new ResponseModel(personService.save(personDto));
     }
 
     @GetMapping(API_FINDALL)
-    public List<PersonDto> findAllPerson() {
-        return personService.findAll();
+    public ResponseModel findAllPerson() {
+        return new ResponseModel(personService.findAll());
     }
 
 }
