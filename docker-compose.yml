@@ -8,10 +8,13 @@ services:
       context: ./
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - 8080:8080
     restart: always
     depends_on:
       - db
+      - redis
+    links:
+      - redis
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/person?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: person
@@ -23,7 +26,7 @@ services:
   db:
     image: mysql:5.7
     ports:
-      - "3306:3306"
+      - 3306:3306
     restart: always
     environment:
       MYSQL_DATABASE: person
@@ -35,8 +38,30 @@ services:
     networks:
       - backend
 
+  #Redis Service
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    networks:
+      - backend
+
+  #Resid GUI
+  redis-gui:
+    image: erikdubbelboer/phpredisadmin
+    ports:
+      - 6380:80
+    depends_on:
+      - redis
+    networks:
+      - backend
+    environment:
+      - REDIS_1_HOST=redis
+      - REDIS_1_NAME=MyRedis
 volumes:
   db-data:
 
 networks:
   backend:
+  back:
+    driver: bridge

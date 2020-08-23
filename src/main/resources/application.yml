@@ -3,7 +3,7 @@ spring:
    main:
       banner-mode: off
    datasource:
-      url: jdbc:mysql://localhost:3306/person?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
+      url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/person?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
       username: person
       password: 123
    jpa:
@@ -16,5 +16,11 @@ spring:
          hibernate:
             jdbc:
                 time_zone: Asia/Baku
-      show-sql: false
+      show-sql: true
+   cache:
+      type: redis
+   redis:
+       host: ${REDIS_HOST:redis}
+       port: 6379
+
 

@@ -22,8 +22,7 @@ import java.util.Collections;
 
 import static org.mockito.ArgumentMatchers.isA;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -41,6 +40,7 @@ public class PersonRestControllerTest {
     private static final String API_GET = "/person/{id}";
     private static final String API_SAVE = "/person/save";
     private static final String API_FIND_ALL = "/person/findAll";
+    private static final String API_DELETE_ID = "/person/delete/{id}";
 
     public static final String SUCCESS = "success";
     private static final String ERROR_CODE = "$.code";
@@ -94,6 +94,12 @@ public class PersonRestControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.id").value(personDto.getId()));
+    }
+
+    @Test
+    public void deletePersonIsOk() throws Exception {
+        mvc.perform(delete(API_DELETE_ID, ID))
+                .andExpect(status().isOk());
     }
 
     @Test

@@ -6,9 +6,11 @@ import com.example.demo.dto.PersonDto;
 import java.util.List;
 
 public interface PersonService {
-    PersonDto findById(long id);
+    PersonDto findById(long personId);
 
     PersonDto save(PersonDto person);
 
     List<PersonDto> findAll();
+
+    void deleteById(long personId);
 }
