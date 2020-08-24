@@ -5,12 +5,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+
 import java.time.LocalDateTime;
 
 @Data
-@RequiredArgsConstructor
 public class ResponseModel<T> {
-
     public static final String SUCCESS = "success";
 
     private int code;
@@ -24,16 +23,24 @@ public class ResponseModel<T> {
     @JsonFormat(pattern = "dd.MM.yyyy HH:mm:ss")
     private LocalDateTime timestamp;
 
-    public ResponseModel(T data) {
-        this.code= HttpStatus.OK.value();
+    private ResponseModel(T data) {
+        this.code = HttpStatus.OK.value();
         this.data = data;
-        this.message=SUCCESS;
-        this.timestamp=LocalDateTime.now();
+        this.message = SUCCESS;
+        this.timestamp = LocalDateTime.now();
     }
 
-    public ResponseModel(int code, String message) {
+    private ResponseModel(int code, String message) {
         this.code = code;
         this.message = message;
-        this.timestamp=LocalDateTime.now();
+        this.timestamp = LocalDateTime.now();
+    }
+
+    public static <T> ResponseModel ok(T t) {
+        return new ResponseModel(t);
+    }
+
+    public static <T>ResponseModel badRequest(int code, String message){
+        return new ResponseModel(code,message);
     }
 }

@@ -1,0 +1,7 @@
+spring:
+   jpa:
+      show-sql: true
+   cache:
+      type: none
+
+

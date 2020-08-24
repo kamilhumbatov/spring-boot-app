@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(PersonNotFoundException.class)
     public ResponseEntity customHandleNotFound(PersonNotFoundException ex) {
         log.warn(ex.getMessage());
-        ResponseModel responseModel = new ResponseModel(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
-        return new ResponseEntity(responseModel, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(ResponseModel.badRequest(HttpStatus.BAD_REQUEST.value(), ex.getMessage()),
+                HttpStatus.BAD_REQUEST);
     }
 }

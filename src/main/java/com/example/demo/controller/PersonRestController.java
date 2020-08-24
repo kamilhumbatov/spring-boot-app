@@ -34,19 +34,19 @@ public class PersonRestController {
     @ApiOperation(GET_PERSON_WITH_ID)
     public ResponseModel findPersonById(
             @PathVariable @Positive(message = ID_MUST_BE_POSITIVE) long personId) {
-        return new ResponseModel(personService.findById(personId));
+        return ResponseModel.ok(personService.findById(personId));
     }
 
     @PostMapping(API_SAVE)
     @ApiOperation(UPDATE_OR_SAVE_PERSON)
     public ResponseModel savePerson(@Validated @RequestBody PersonDto personDto) {
-        return new ResponseModel(personService.save(personDto));
+        return ResponseModel.ok(personService.save(personDto));
     }
 
     @GetMapping(API_FIND_ALL)
     @ApiOperation(FIND_ALL_PERSONS)
     public ResponseModel findAllPerson() {
-        return new ResponseModel(personService.findAll());
+        return ResponseModel.ok(personService.findAll());
     }
 
     @DeleteMapping(API_DELETE_BY_ID)
