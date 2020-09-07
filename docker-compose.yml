@@ -7,9 +7,9 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
+    container_name: app
     ports:
-      - 8080:8080
-    restart: always
+      - 8088:8088
     depends_on:
       - db
       - redis
@@ -20,12 +20,14 @@ services:
       SPRING_DATASOURCE_USERNAME: person
       SPRING_DATASOURCE_PASSWORD: 123
       SPRING_PROFILES_ACTIVE: prod
+      REDIS_HOST: redis
     networks:
       - backend
 
   # Database Service (Mysql)
   db:
     image: mysql:5.7
+    container_name: mysql
     ports:
       - 3306:3306
     restart: always
@@ -42,6 +44,7 @@ services:
   #Redis Service
   redis:
     image: redis:latest
+    container_name: redis
     ports:
       - 6379:6379
     networks:
@@ -50,6 +53,7 @@ services:
   #Resid GUI
   redis-gui:
     image: erikdubbelboer/phpredisadmin
+    container_name: redis-gui
     ports:
       - 6380:80
     depends_on:
