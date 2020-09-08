@@ -16,4 +16,18 @@ spring:
             jdbc:
                 time_zone: Asia/Baku
 
+logging:
+   level:
+      org:
+         springframework:
+            transaction:
+               interceptor: INFO
+
+logstash:
+   enabled: true
+   appname: exchange-shims
+   host: ${LOGSTASH_HOST:localhost}
+   port: 5000
+   queue-size: 512
+
 

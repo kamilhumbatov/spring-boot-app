@@ -21,6 +21,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: 123
       SPRING_PROFILES_ACTIVE: prod
       REDIS_HOST: redis
+      LOGSTASH_HOST : elasticsearch
     networks:
       - backend
 
@@ -63,8 +64,60 @@ services:
     environment:
       - REDIS_1_HOST=redis
       - REDIS_1_NAME=MyRedis
+
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.8.1
+    environment:
+      - node.name=elasticsearch
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=elasticsearch
+      - cluster.initial_master_nodes=elasticsearch
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - demo_elasticsearch_data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+  logstash:
+    build:
+      context: logstash/
+      args:
+        ELK_VERSION: 7.8.1
+    volumes:
+      - type: bind
+        source: ./logstash/config/logstash.yml
+        target: /usr/share/logstash/config/logstash.yml
+        read_only: true
+      - type: bind
+        source: ./logstash/pipeline
+        target: /usr/share/logstash/pipeline
+        read_only: true
+    ports:
+      - "5000:5000/tcp"
+      - "5000:5000/udp"
+      - "9600:9600"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    depends_on:
+      - elasticsearch
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.8.1
+    ports:
+      - 5601:5601
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+
+
 volumes:
   db-data:
+  demo_elasticsearch_data:
 
 networks:
   backend:
